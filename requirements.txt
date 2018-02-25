@@ -1,0 +1,10 @@
+jinja2
+folium
+shapely
+gbdxtools
+numpy
+matplotlib
+plotly
+scikit-image
+pandas
+rasterio
