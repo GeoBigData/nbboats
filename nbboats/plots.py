@@ -136,23 +136,24 @@ def plot_boat_results_with_temperature(merged_df):
     # Create a trace
     boats_trace = go.Scatter(x=merged_df['date'],
                              y=merged_df['n_boats'],
-                             name='Boats')
+                             xaxis='x2',
+                             yaxis='y2',
+                             name='Boats',
+                             marker={'color': '#2678B2'})
 
     # Create a trace
     temp_trace = go.Scatter(x=merged_df['date'],
                             y=merged_df['temp_f'],
-                            xaxis='x2',
-                            yaxis='y2',
-                            name='Temperature')
+                            name='Temperature',
+                            marker={'color': '#FB7E28'})
 
-    graph_data = [boats_trace, temp_trace]
-
+    graph_data = [temp_trace, boats_trace]
     yaxis = dict(domain=(0, .45),
-                 title='Number of Boats',
-                 range=(0, max(merged_df['n_boats'] + 50)))
+                 title='Temperature (F)',
+                 range=(0, max(merged_df['temp_f'] + 10)))
     yaxis2 = dict(domain=(.55, 1),
-                  title='Temperature (F)',
-                  range=(0, max(merged_df['temp_f'] + 10)),
+                  title='Number of Boats',
+                  range=(0, max(merged_df['n_boats'] + 50)),
                   anchor='x2')
     graph_layout = go.Layout(yaxis=yaxis,
                              yaxis2=yaxis2,
