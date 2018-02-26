@@ -1,5 +1,6 @@
 jinja2
 folium
+branca
 shapely
 gbdxtools
 numpy
