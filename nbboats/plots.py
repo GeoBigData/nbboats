@@ -7,6 +7,8 @@ from gbdxtools import IdahoImage
 import numpy as np
 from matplotlib import pyplot as plt, colors
 import plotly.graph_objs as go
+from branca.element import Element, Figure
+from plotly.offline.offline import _plot_html
 
 
 # CONSTANTS
@@ -162,3 +164,23 @@ def plot_boat_results_with_temperature(merged_df):
 
     return fig
 
+
+def plot_plotly(chart, width='100%', height=525):
+    # produce the html in Ipython compatible format
+    plot_html, plotdivid, width, height = _plot_html(chart, {'showLink': False}, True, width, height, True)
+    # define the plotly js library source url
+    head = '<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>'
+    # extract the div element from the ipython html
+    div = plot_html[0:plot_html.index('<script')]
+    # extract the script element from the ipython html
+    script = plot_html[plot_html.index('Plotly.newPlot'):plot_html.index('});</script>')] + ';'
+    # combine div and script to build the body contents
+    body = '<body>{div}<script>{script}</script></body>'.format(div=div, script=script)
+    # instantiate a figure object
+    figure = Figure()
+    # add the head
+    figure.header.add_child(Element(head))
+    # add the body
+    figure.html.add_child(Element(body))
+
+    return figure
