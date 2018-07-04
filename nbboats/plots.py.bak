@@ -1,6 +1,3 @@
-from __future__ import division
-from builtins import str
-from past.utils import old_div
 import jinja2
 import json
 import folium
@@ -18,7 +15,7 @@ from plotly.offline.offline import _plot_html
 COLORS_WATER_RGB = np.array([[8, 88, 158],
                              [120, 198, 121],
                              [255, 249, 35]])
-COLORS_WATER_CMAP = colors.ListedColormap(old_div(COLORS_WATER_RGB, 255.), name='from_list', N=None)
+COLORS_WATER_CMAP = colors.ListedColormap(COLORS_WATER_RGB / 255., name='from_list', N=None)
 TMS_1030010067C11400 = 'https://s3.amazonaws.com/notebooks-small-tms/103001001B172A00/{z}/{x}/{y}.png'
 
 
@@ -102,7 +99,7 @@ def get_idaho_tms_ids(image):
             p['properties']['attributes']['idahoImageId'])
         for p in image._find_parts(image.cat_id, 'pan')}
 
-    ms_idaho_id = [k for k in list(ms_parts.keys()) if box(*IdahoImage(k).bounds).intersects(box(*image.bounds))][0]
+    ms_idaho_id = [k for k in ms_parts.keys() if box(*IdahoImage(k).bounds).intersects(box(*image.bounds))][0]
     pan_idaho_id = pan_parts[ms_parts[ms_idaho_id]]
 
     idaho_ids = {'ms_id' : ms_idaho_id,
@@ -113,7 +110,7 @@ def get_idaho_tms_ids(image):
 def get_idaho_tms_url(source_catid_or_image, gbdx):
     if type(source_catid_or_image) == str:
         image = CatalogImage(source_catid_or_image)
-    elif '_ipe_op' in list(source_catid_or_image.__dict__.keys()):
+    elif '_ipe_op' in source_catid_or_image.__dict__.keys():
         image = source_catid_or_image
     else:
         err = "Invalid type for source_catid_or_image. Must be either a Catalog ID (string) or CatalogImage object"

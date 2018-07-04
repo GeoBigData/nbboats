@@ -1,14 +1,10 @@
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
-from past.utils import old_div
 import json
 from shapely.geometry import shape
 from rasterio import features
 import requests
 import pandas as pd
 import numpy as np
-from io import StringIO
+from cStringIO import StringIO
 from skimage import filters, morphology, measure
 
 
@@ -39,14 +35,14 @@ def m2_to_cells(area_m2, image):
 
     cell_height_m = image.ipe.metadata['image']['groundSampleDistanceMeters']
     cell_area_m2 = cell_height_m ** 2
-    n_cells = np.round((old_div(area_m2, cell_area_m2))).astype('int64')
+    n_cells = np.round((area_m2 / cell_area_m2)).astype('int64')
 
     return n_cells
 
 
 def calc_water_index(catalog_image):
 
-    water_index = old_div((catalog_image[7, :, :] - catalog_image[0, :, :]), (catalog_image[7, :, :] + catalog_image[0, :, :]))
+    water_index = (catalog_image[7, :, :] - catalog_image[0, :, :]) / (catalog_image[7, :, :] + catalog_image[0, :, :])
 
     return water_index
 
