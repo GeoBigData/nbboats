@@ -9,6 +9,7 @@ import requests
 import pandas as pd
 import numpy as np
 from io import StringIO
+from io import BytesIO
 from skimage import filters, morphology, measure
 
 
@@ -20,7 +21,7 @@ SYDNEY_WEATHER_DATA = 'https://s3.amazonaws.com/gbdx-training/counting_boats/syd
 def read_df_from_url(url):
 
     r = requests.get(url)
-    df = pd.read_csv(StringIO(r.content))
+    df = pd.read_csv(BytesIO(r.content))
 
     return df
 
@@ -113,11 +114,3 @@ def labels_to_polygons(labels_array, image_affine, ignore_label=0):
     polygons = [{'geometry': shape(g).buffer(0), 'properties': {'id': v}} for g, v in polygon_generator]
 
     return polygons
-
-
-
-
-
-
-
-
