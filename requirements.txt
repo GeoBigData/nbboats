@@ -5,7 +5,7 @@ shapely
 gbdxtools
 numpy
 matplotlib
-plotly==1.7.0
+plotly==2.7.0
 scikit-image
 pandas
 rasterio
