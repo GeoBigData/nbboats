@@ -38,7 +38,7 @@ def binary_threshold(img):
 
 def m2_to_cells(area_m2, image):
 
-    cell_height_m = image.ipe.metadata['image']['groundSampleDistanceMeters']
+    cell_height_m = image.rda.metadata['image']['groundSampleDistanceMeters']
     cell_area_m2 = cell_height_m ** 2
     n_cells = np.round((old_div(area_m2, cell_area_m2))).astype('int64')
 
